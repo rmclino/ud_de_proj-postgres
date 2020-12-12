@@ -6,6 +6,12 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """
+    Process song files. Receive the cursor to database and a filepath.
+     - Read json file into a pandas DataFrame
+     - Select song_data data and Insert in the song_table in the dataBase
+     - Select artist data and insert in the artist_table in the dataBase
+    """
     # open song file
     df = pd.read_json(filepath, lines=True)
     
@@ -18,7 +24,22 @@ def process_song_file(cur, filepath):
     cur.execute(artist_table_insert, artist_data)
 
 
-def process_log_file(cur, filepath):
+def process_log_file(cur, filepath,verbose=True):
+    """
+    Process log files. Receive the cursor to database and a filepath.
+     - Read json file into a pandas DataFrame
+     - Filter Data to get only the NextSong Page
+     - Covert timestamp in mileseconds to datetime format
+     - Create t to get the time records 'start_time','hour', 'day', 'week', 'month', 'year', 'weekday'
+     - Insert time data record into time_table iterating over all lines in dataFrame
+     - Select user data and insert in user_table
+     - Iterate over rows to:
+         -find a match in the data base using the query song_select. Receive songId and 
+         artistNam after sending song , artist and length. If result is Null set songid
+         and artistid to null
+         - Insert song play to songplay_table
+    
+    """
     # open log file
     df = pd.read_json(filepath,lines=True)
 
@@ -53,17 +74,29 @@ def process_log_file(cur, filepath):
         
         if results:
             songid, artistid = results
-            print(results)
+            if verbose:
+                print("song_select Matches: song_id {}, artist_id {}".format(songid, artistid))
         else:
             songid, artistid = None, None
 
         # insert songplay record
         songplay_data = (row.ts, row.userId, row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
-        print(songplay_data)
+        #print(songplay_data)
         cur.execute(songplay_table_insert, songplay_data)
 
 
-def process_data(cur, conn, filepath, func):
+def process_data(cur, conn, filepath, func, verbose=True):
+    """
+    Process data across the data repository getting all file names.
+    Get the total number of files
+    Iterate over files and execute a funtion and commit to the database
+    Receive:
+        -cursor and conn from the database
+        - filepath to serach files
+        - func, a function that receive the cursor and the datafile location to process
+        - verbose to silence the printing
+    
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
@@ -73,16 +106,25 @@ def process_data(cur, conn, filepath, func):
 
     # get total number of files found
     num_files = len(all_files)
-    print('{} files found in {}'.format(num_files, filepath))
+    if verbose:
+        print('{} files found in {}'.format(num_files, filepath))
 
     # iterate over files and process
     for i, datafile in enumerate(all_files, 1):
         func(cur, datafile)
         conn.commit()
-        print('{}/{} files processed.'.format(i, num_files))
+        if verbose:
+            print('{}/{} files processed.'.format(i, num_files))
 
 
 def main():
+    """
+    Create a connection to the database and open a cursor.
+    Call process_data:
+    1. For the song_data calling process_song_file 
+    2. For the log_data calling process_log_file
+    
+    """
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 
