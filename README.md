@@ -1,3 +1,5 @@
+The README file includes a summary of the project, how to run the Python scripts, and an explanation of the files in the repository. Comments are used effectively and each function has a docstring.
+
 # Project: Data Modeling with Postgres
 
 **Introduction**
@@ -45,4 +47,7 @@ The log files in the dataset you'll be working with are partitioned by year and 
 log_data/2018/11/2018-11-12-events.json
 log_data/2018/11/2018-11-13-events.json
 </pre>
-![imagem_logs](log-data.png "log data")
+
+img src="images/log-data.png" alt="log-image" width="500" height="600"        
+        
+![log-image](images/log-data.png)
