@@ -18,7 +18,7 @@ songplay_table_create = (""" CREATE TABLE IF NOT EXISTS songplays  (
                                session_id INTEGER,
                                location VARCHAR,
                                user_agent VARCHAR ,
-                               PRIMARY KEY(songplay_id)                               
+                               PRIMARY KEY(songplay_id)
                             );
 """)
 
@@ -30,6 +30,10 @@ user_table_create = (""" CREATE TABLE IF NOT EXISTS users (
                                level VARCHAR,
                                PRIMARY KEY(user_id)
                                );
+                         ALTER TABLE songplays 
+                                 ADD CONSTRAINT fk_users 
+                                    FOREIGN KEY (user_id) 
+                                    REFERENCES users (user_id);                           
                                
 """)
 
@@ -41,6 +45,10 @@ song_table_create = (""" CREATE TABLE IF NOT EXISTS songs  (
                                duration FLOAT,
                                PRIMARY KEY(song_id)
                                );
+                         ALTER TABLE songplays 
+                                 ADD CONSTRAINT fk_songs 
+                                    FOREIGN KEY (song_id) 
+                                    REFERENCES songs (song_id);  
                                
 """)
 
@@ -52,6 +60,11 @@ artist_table_create = (""" CREATE TABLE IF NOT EXISTS artists  (
                                longitude FLOAT,
                                PRIMARY KEY(artist_id)
                                );
+                         ALTER TABLE songplays 
+                                 ADD CONSTRAINT fk_artists 
+                                    FOREIGN KEY (artist_id) 
+                                    REFERENCES artists (artist_id);  
+                               
 """)
 
 time_table_create = (""" CREATE TABLE IF NOT EXISTS time  (
@@ -63,6 +76,10 @@ time_table_create = (""" CREATE TABLE IF NOT EXISTS time  (
                                year SMALLINT,
                                weekday SMALLINT
                                );
+                         ALTER TABLE songplays 
+                                 ADD CONSTRAINT fk_time 
+                                    FOREIGN KEY (start_time) 
+                                    REFERENCES time (start_time);  
 
 """)
 
