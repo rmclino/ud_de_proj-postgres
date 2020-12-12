@@ -1,0 +1,14 @@
+git init
+
+git status
+
+pit push origin maste
+
+
+git fetch origin
+git pull origin master
+
+
+Git Diff after pull
+
+git diff master@{1} master
