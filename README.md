@@ -61,4 +61,6 @@ The second query load log files and filter the data by page equal to 'NextSong',
 
 ## Query Examples
 
+From the notebook [Analytical_querys.ipynb](\Analytical_querys.ipynb)
+
 ![AnalyticaL_querys](Analytical_querys.png)
