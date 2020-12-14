@@ -58,6 +58,15 @@ img src="images/log-data.png" alt="log-image" width="500" height="600"
 **The pipeline** open a connection to the data base and first process the song_data, beacuse the next process, log data, need to query the databse to find the song_id and the artist_id. The second is dependent on the first one. This is a simple pipeline, in the real world there is no control over the data already inserted in the database in the song_data. It should control the file list already treated.
 The second query load log files and filter the data by page equal to 'NextSong', then convert data to appropriate format (datetime), than populate the databases time, user and songplays records. To populate the songplay record there is a query to match the music_id and artist_id based on other information (song name, artist name and duration). The process of iterate over rows is costly and would make many nulls if the song_data is not already updated.
 
+## How to Run the Scripts
+
+The build was made in a `Python 3.6.3` version.
+The requirements are in ![the requirements.txt](requirements.txt) file where are the versions of pandas and psycopg2 packages (the main packages used).
+
+> Run:
+> Python **create_tables.py** first
+> Then run **etl.py**
+
 
 ## Query Examples
 
