@@ -63,10 +63,16 @@ The second query load log files and filter the data by page equal to 'NextSong',
 The build was made in a `Python 3.6.3` version.
 The requirements are in ![the requirements.txt](requirements.txt) file where are the versions of pandas and psycopg2 packages (the main packages used).
 
-> Run:
-> Python **create_tables.py** first
-> Then run **etl.py**
+> Run in the terminal:
+```
+>python create_tables.py
+>python etl.py
+```
+Im Python Notebokks
 
+>!python create_tables.py
+>
+>!python etl.py
 
 ## Query Examples
 
