@@ -70,4 +70,6 @@ The requirements are in ![the requirements.txt](requirements.txt) file where are
 
 ## Query Examples
 
+From the notebook [Analytical_querys.ipynb](\Analytical_querys.ipynb)
+
 ![AnalyticaL_querys](Analytical_querys.png)
